@@ -1,8 +1,16 @@
 const mongoose = require('mongoose');
-const mongoURI = "mongodb://localhost:27017/inotebook"
+require('dotenv').config({ path: './.env' });
+// const DB_NAME = require('./constant');
 
-const connectToMongo = () => {
-    mongoose.connect(process.env.MONGO_URI);
-        console.log("SuccessFully Connected!...")
-}
+
+const connectToMongo = async () => {
+    try {
+        const connectionInstance = await mongoose.connect(process.env.MONGODB_URI);
+        console.log(`\n MongoDB Connected!. DB HOST: ${connectionInstance.connection.host}`);
+    } catch (error) {
+        console.log("MongoDB Connection Error!.", error);
+        process.exit(1);
+    }
+};
+
 module.exports = connectToMongo;
